@@ -1,0 +1,255 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-error-500: var(--error-500);
+  --color-button-disabled-bg: var(--button-disabled-bg);
+  --color-button-disabled-text: var(--button-disabled-text);
+}
+
+/* --- Light mode — override root variables to our new palette --- */
+:root {
+  --radius: 0.625rem;
+
+  /* existing (shadcn) variables — we override their values */
+  --background: #f9fafb;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #10b981;
+  --secondary-foreground: #ffffff;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: #d1d5db;
+  --input: #ffffff;
+  --ring: #3b82f6;
+  --chart-1: #3b82f6;
+  --chart-2: #10b981;
+  --chart-3: #ef4444;
+  --chart-4: #f59e0b;
+  --chart-5: #34d399;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #10b981;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #d1d5db;
+  --sidebar-ring: #3b82f6;
+
+  /* — New variables we add (from our palette) — */
+
+  /* Neutral / surfaces / shadows etc */
+  --surface-1: #ffffff;
+  --surface-2: #f3f4f6;
+  --surface-3: #e5e7eb;
+  --divider: #d1d5db;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-strong: rgba(0, 0, 0, 0.15);
+  --overlay: rgba(0, 0, 0, 0.5);
+
+  /* Accent / status scales (primary, secondary, etc) */
+  --primary-600: #2563eb;
+  --primary-400: #60a5fa;
+  --primary-300: #93c5fd;
+
+  --secondary-600: #059669;
+  --secondary-400: #34d399;
+  --secondary-300: #6ee7b7;
+
+  --error-500: #ef4444;
+  --error-600: #dc2626;
+  --warning-500: #f59e0b;
+  --info-500: #3b82f6;
+  --success-500: #10b981;
+
+  /* Interactive / input / button states */
+  --button-bg: var(--primary);
+  --button-hover: #2563eb;
+  --button-active: #60a5fa;
+  --button-text: #ffffff;
+  --button-disabled-bg: #e5e7eb;
+  --button-disabled-text: #9ca3af;
+
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-focus-border: #3b82f6;
+  --input-text: #111827;
+  --input-placeholder: #6b7280;
+  --input-disabled-bg: #f3f4f6;
+
+  --link: #3b82f6;
+  --link-hover: #2563eb;
+
+  /* Tags / badges */
+  --tag-bg-primary: #dbeafe;
+  --tag-text-primary: #1e3a8a;
+  --tag-bg-secondary: #dcfce7;
+  --tag-text-secondary: #065f46;
+  --tag-bg-error: #fee2e2;
+  --tag-text-error: #991b1b;
+  --tag-bg-warning: #fef3c7;
+  --tag-text-warning: #92400e;
+  --tag-bg-info: #dbeafe;
+  --tag-text-info: #1e3a8a;
+  --tag-bg-success: #d1fae5;
+  --tag-text-success: #065f46;
+
+  /* Modal / popover / tooltip / elevation */
+  --modal-bg: #ffffff;
+  --tooltip-bg: #111827;
+  --tooltip-text: #ffffff;
+  --elevation-1-shadow: rgba(0, 0, 0, 0.05);
+  --elevation-2-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Dark mode overrides --- */
+.dark {
+  --background: #121212;
+  --foreground: #e5e5e5;
+  --card: #1e1e1e;
+  --card-foreground: #e5e5e5;
+  --popover: #1e1e1e;
+  --popover-foreground: #e5e5e5;
+  --primary: #60a5fa;
+  --primary-foreground: #121212;
+  --secondary: #34d399;
+  --secondary-foreground: #121212;
+  --muted: #2a2a2a;
+  --muted-foreground: #9e9e9e;
+  --accent: #60a5fa;
+  --accent-foreground: #121212;
+  --destructive: #f87171;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: #1e1e1e;
+  --ring: #60a5fa;
+  --chart-1: #60a5fa;
+  --chart-2: #34d399;
+  --chart-3: #f87171;
+  --chart-4: #fbbf24;
+  --chart-5: #a7f3d0;
+  --sidebar: #1e1e1e;
+  --sidebar-foreground: #e5e5e5;
+  --sidebar-primary: #60a5fa;
+  --sidebar-primary-foreground: #121212;
+  --sidebar-accent: #34d399;
+  --sidebar-accent-foreground: #121212;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #60a5fa;
+
+  /* New variables in dark */
+  --surface-1: #1e1e1e;
+  --surface-2: #2a2a2a;
+  --surface-3: #333333;
+  --divider: #3f3f3f;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-strong: rgba(0, 0, 0, 0.7);
+  --overlay: rgba(255, 255, 255, 0.3);
+
+  --primary-600: #3b82f6;
+  --primary-400: #93c5fd;
+  --primary-300: #bfdbfe;
+
+  --secondary-600: #10b981;
+  --secondary-400: #6ee7b7;
+  --secondary-300: #a7f3d0;
+
+  --error-500: #f87171;
+  --error-600: #ef4444;
+  --warning-500: #fbbf24;
+  --info-500: #60a5fa;
+  --success-500: #34d399;
+
+  --button-bg: var(--primary);
+  --button-hover: #60a5fa;
+  --button-active: #bfdbfe;
+  --button-text: #121212;
+  --button-disabled-bg: #2a2a2a;
+  --button-disabled-text: #6b6b6b;
+
+  --input-bg: #1e1e1e;
+  --input-border: #3f3f3f;
+  --input-focus-border: #60a5fa;
+  --input-text: #e5e5e5;
+  --input-placeholder: #9e9e9e;
+  --input-disabled-bg: #2a2a2a;
+
+  --link: #60a5fa;
+  --link-hover: #3b82f6;
+
+  --tag-bg-primary: #1e40af;
+  --tag-text-primary: #bfdbfe;
+  --tag-bg-secondary: #064e3b;
+  --tag-text-secondary: #a7f3d0;
+  --tag-bg-error: #7f1d1d;
+  --tag-text-error: #fca5a5;
+  --tag-bg-warning: #78350f;
+  --tag-text-warning: #fcd34d;
+  --tag-bg-info: #1e40af;
+  --tag-text-info: #bfdbfe;
+  --tag-bg-success: #064e3b;
+  --tag-text-success: #064e3b;
+
+  --modal-bg: #1e1e1e;
+  --tooltip-bg: #e5e5e5;
+  --tooltip-text: #121212;
+  --elevation-1-shadow: rgba(0, 0, 0, 0.2);
+  --elevation-2-shadow: rgba(0, 0, 0, 0.4);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

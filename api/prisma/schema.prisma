@@ -1,0 +1,249 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+model Organization {
+  id        String    @id @default(uuid())
+  name      String
+  settings  Json?     // org-level settings, billing plan, etc
+  users     User[]
+  clients   Client[]
+  projects  Project[]
+  invoices  Invoice[]
+  invites Invite[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? @db.Timestamptz
+}
+
+model User {
+  id             String   @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  email          String   @unique
+  emailVerified  Boolean  @default(false)
+  verificationTokenHash String?   @unique   // 🔐 hashed token sent in email
+  verificationExpiresAt DateTime
+  passwordHash   String
+  fullName       String?
+  role           UserRole @default(MEMBER)
+  refreshTokens  RefreshToken[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  deletedAt      DateTime? @db.Timestamptz
+  tasks          Task[]
+  timeEntries    TimeEntry[]
+  passwordResetRequest PasswordResetRequest[]
+
+
+}
+
+enum UserRole {
+  OWNER
+  MEMBER
+  VIEWER
+}
+
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  tokenHash  String 
+  tid        String  
+  expiresAt  DateTime
+  revoked    Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Client {
+  id             String    @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  name           String
+  email          String?
+  phone          String?
+  address        String?
+  metadata       Json?     // arbitrary client metadata
+  projects       Project[]
+  invoices       Invoice[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime? @db.Timestamptz
+}
+
+model Project {
+  id             String    @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  client         Client?   @relation(fields: [clientId], references: [id])
+  clientId       String?
+  name           String
+  description    String?
+  status         ProjectStatus @default(ACTIVE)
+  tasks          Task[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime? @db.Timestamptz
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+  COMPLETED
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  project     Project   @relation(fields: [projectId], references: [id])
+  projectId   String
+  title       String
+  description String?
+  assigneeId  String?    // FK to User.id (optional)
+  assignee    User?      @relation(fields: [assigneeId], references: [id])
+  estimateMins Int?
+  status      TaskStatus @default(OPEN)
+  timeEntries TimeEntry[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?  @db.Timestamptz
+}
+
+enum TaskStatus {
+  OPEN
+  IN_PROGRESS
+  REVIEW
+  DONE
+  BLOCKED
+}
+
+model TimeEntry {
+  id          String   @id @default(uuid())
+  task        Task     @relation(fields: [taskId], references: [id])
+  taskId      String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  startAt     DateTime?
+  endAt       DateTime?
+  durationMin Int      // computed / denormalized in minutes
+  notes       String?
+  billable    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Invoice {
+  id             String   @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  client         Client   @relation(fields: [clientId], references: [id])
+  clientId       String
+  invoiceNumber  String   @unique
+  status         InvoiceStatus @default(DRAFT)
+  currency       String   @default("USD")
+  subtotalCents  Int
+  taxCents       Int
+  totalCents     Int
+  issuedAt       DateTime?
+  dueAt          DateTime?
+  pdfUrl         String?  // storage path or CDN url
+  metadata       Json?    // raw Stripe/third-party payloads, custom fields
+  lineItems      InvoiceLineItem[]
+  payments       Payment[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  deletedAt      DateTime? @db.Timestamptz
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  PARTIALLY_PAID
+  OVERDUE
+  CANCELLED
+}
+
+model InvoiceLineItem {
+  id         String  @id @default(uuid())
+  invoice    Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId  String
+  description String
+  quantity   Int
+  unitCents  Int
+  totalCents Int
+  timeEntryId String? // optional tie-back to TimeEntry if generated
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId     String
+  provider      String   // e.g., "stripe"
+  providerId    String   // stripe payment id
+  amountCents   Int
+  currency      String
+  status        PaymentStatus
+  rawPayload    Json?
+  createdAt     DateTime @default(now())
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+model WebhookEvent {
+  id           String   @id @default(uuid())
+  provider     String
+  providerId   String   // provider event id
+  payload      Json
+  receivedAt   DateTime @default(now())
+  processed    Boolean  @default(false)
+  processedAt  DateTime?
+}
+
+
+model Invite {
+  id           String   @id @default(uuid())
+  organization Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  email        String
+  role         UserRole  @default(MEMBER)
+  token        String @unique   // opaque invite token (hashed in DB? optional)
+  expiresAt    DateTime
+  accepted     Boolean   @default(false)
+  acceptedAt   DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+
+model PasswordResetRequest {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  tokenHash   String  @unique // securely store hash of the reset token
+  expiresAt   DateTime // when the token expires
+  used        Boolean  @default(false)
+  usedAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
