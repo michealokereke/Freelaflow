@@ -17,14 +17,14 @@ const authUrl = "/api/v1/auth";
 
 const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<any, AuthTypes["Login"]>({
+    login: builder.mutation<unknown, AuthTypes["Login"]>({
       query: (credentials) => ({
         url: `${authUrl}/login`,
         method: "POST",
         body: credentials,
       }),
     }),
-    register: builder.mutation<any, AuthTypes["Register"]>({
+    register: builder.mutation<unknown, AuthTypes["Register"]>({
       query: (credentials) => ({
         url: `${authUrl}/register`,
         method: "POST",
