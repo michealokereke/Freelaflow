@@ -5,9 +5,9 @@ const getEnv = (value: string, defaultValue?: string) => {
   if (!envValue) throw errorFormat(`${value} value not found`, 500);
   return envValue;
 };
+const CLIENT_ORIGIN_CONBINED = getEnv("CLIENT_ORIGINS");
 
 export const PORT = getEnv("PORT", "4000");
-const CLIENT_ORIGIN_CONBINED = getEnv("CLIENT_ORIGINS");
 export const CLIENT_ORIGINS = CLIENT_ORIGIN_CONBINED.split(",");
 export const ACCESS_TOKEN_EXPIRES_IN = getEnv("ACCESS_TOKEN_EXPIRES_IN");
 export const REFRESH_TOKEN_EXPIRES_DAYS = getEnv("REFRESH_TOKEN_EXPIRES_DAYS");

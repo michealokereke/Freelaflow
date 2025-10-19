@@ -1,4 +1,4 @@
-import type { NextFunction, Request, RequestHandler, Response } from "express";
+import type { Request, RequestHandler } from "express";
 import { jwt } from "../utils/jwt.js";
 import { errorFormat } from "../utils/errorFormat.js";
 
@@ -6,11 +6,7 @@ export interface AuthUser extends Request {
   user?: any;
 }
 
-export const authMiddleware = (
-  req: AuthUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const authMiddleware: RequestHandler = (req: AuthUser, res, next) => {
   const reqAccessToken = req.cookies.freelaflow_access;
   const decoded = jwt.verifyAccessToken(reqAccessToken);
   if (!decoded || typeof decoded === "string")
