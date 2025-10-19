@@ -202,16 +202,16 @@ export const authService = {
       verificationToken
     )}`;
 
-    await sendEmail(
-      email,
-      "Verify Email - Freelaflow",
-      emailTemplate.Auth.verify.html
-        .replace("{{name}}", newUser?.fullName!)
-        .replace("{{verificationLink}}", verificationUrl),
-      emailTemplate.Auth.verify.text
-        .replace("{{name}}", newUser?.fullName!)
-        .replace("{{verificationLink}}", verificationUrl)
-    );
+    // await sendEmail(
+    //   email,
+    //   "Verify Email - Freelaflow",
+    //   emailTemplate.Auth.verify.html
+    //     .replace("{{name}}", newUser?.fullName!)
+    //     .replace("{{verificationLink}}", verificationUrl),
+    //   emailTemplate.Auth.verify.text
+    //     .replace("{{name}}", newUser?.fullName!)
+    //     .replace("{{verificationLink}}", verificationUrl)
+    // );
 
     const accessToken = jwt.signAccessToken({
       sub: newUser?.id as string,
