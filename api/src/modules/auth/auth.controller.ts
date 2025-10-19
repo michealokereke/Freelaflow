@@ -10,7 +10,11 @@ import type { AuthUser } from "../../middleware/auth.middleware.js";
 
 //////////////////////////////////////////////////////////////////////////// LOGIN CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const login: RequestHandler = async (req, res, next) => {
+export const login: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { email, password } = req.body;
   const { accessToken, refreshToken, user } = await authService.login({
     email,
@@ -30,7 +34,11 @@ export const login: RequestHandler = async (req, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// REGISTER CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const register: RequestHandler = async (req, res, next) => {
+export const register: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { orgName, fullName, email, password } = req.body;
 
   const { accessToken, refreshToken, user } = await authService.register({
@@ -52,7 +60,11 @@ export const register: RequestHandler = async (req, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// REFRESH CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const refresh: RequestHandler = async (req, res, next) => {
+export const refresh: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const reqRefreshToken = req.cookies.freelaflow_refresh;
 
   const { accessToken, refreshToken, user } = await authService.refresh({
@@ -73,7 +85,11 @@ export const refresh: RequestHandler = async (req, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// LOGOUT CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const logout: RequestHandler = async (req, res, next) => {
+export const logout: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const reqRefreshToken = req.cookies.freelaflow_refresh;
   try {
     await authService.logout(reqRefreshToken);
@@ -95,7 +111,11 @@ export const me: RequestHandler = async (req: AuthUser, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// REQUEST PASSWORD RESET CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const requestPasswordReset: RequestHandler = async (req, res, next) => {
+export const requestPasswordReset: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { email } = req.body;
 
   const user = await authService.requestPasswordReset(email);
@@ -106,7 +126,11 @@ export const requestPasswordReset: RequestHandler = async (req, res, next) => {
 };
 //////////////////////////////////////////////////////////////////////////// RESET PASSWORD CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const resetPassword: RequestHandler = async (req, res, next) => {
+export const resetPassword: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { newPassword, token } = req.body;
 
   const user = await authService.resetPassword(token, newPassword);
@@ -116,7 +140,11 @@ export const resetPassword: RequestHandler = async (req, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// VERIFY EMAIL CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const verifyEmail: RequestHandler = async (req, res, next) => {
+export const verifyEmail: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { token } = req.body;
   const user = await authService.verifyEmail(token);
 
@@ -143,7 +171,11 @@ export const invites: RequestHandler = async (req: AuthUser, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// ACCEPT INVITES CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const acceptInvites: RequestHandler = async (req, res, next) => {
+export const acceptInvites: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { token, fullName, password } = req.body;
 
   const { refreshToken, accessToken, user } = await authService.acceptInvites({
