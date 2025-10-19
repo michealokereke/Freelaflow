@@ -9,6 +9,7 @@ import { toast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { ApiError } from "@/types/apiError";
 
 const steps = ["Basic Info", "Account Security"];
 
@@ -74,8 +75,13 @@ const RegisterForm = () => {
 
         console.log(response);
         router.push("/dashboard");
-      } catch (error: any) {
-        toast.error(error.data.message || "udefined", themeMode);
+      } catch (error) {
+        const err = error as ApiError;
+        toast.error(
+          err?.data?.message ?? "An unexpected error occurred",
+          themeMode
+        );
+
         console.log(error);
       }
     } else {

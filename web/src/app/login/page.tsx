@@ -19,6 +19,7 @@ import { RootState } from "@/store/store";
 import { useLoginMutation } from "@/store/api/endpoints/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "@/utils/toast";
+import { ApiError } from "@/types/apiError";
 
 const Login = () => {
   const themeMode = useSelector((state: RootState) => state.ui.themeMode.mode);
@@ -52,9 +53,10 @@ const Login = () => {
       console.log(response);
       setErrorMessage(false);
       router.push("/dashboard");
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as ApiError;
       toast.error(
-        error?.data?.message ?? "An unexpected error occurred",
+        err?.data?.message ?? "An unexpected error occurred",
         themeMode
       );
 

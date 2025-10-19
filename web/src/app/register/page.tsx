@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import RegisterForm from "@/components/auth/RegisterForm";
 
-const Login = () => {
+const Register = () => {
   return (
     <div className="h-[100vh] flex justify-center items-center">
       <Card className="w-full max-w-sm">
@@ -44,4 +44,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

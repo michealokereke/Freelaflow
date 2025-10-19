@@ -4,7 +4,7 @@ import { useLogoutMutation } from "@/store/api/endpoints/auth";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const DashBaord = () => {
   const [logoutReq, { isLoading, isError, error, data }] = useLogoutMutation();
   const router = useRouter();
   const handleLogout = async () => {
@@ -26,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DashBaord;

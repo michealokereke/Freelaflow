@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-const Login = () => {
+const ResetPassword = () => {
   return (
     <div className="h-[100vh] flex justify-center items-center">
       <Card className="w-full max-w-sm">
@@ -65,4 +65,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
