@@ -10,7 +10,7 @@ import type { AuthUser } from "../../middleware/auth.middleware.js";
 
 //////////////////////////////////////////////////////////////////////////// LOGIN CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const login: RequestHandler = async (
+export const login = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,7 +34,7 @@ export const login: RequestHandler = async (
 
 //////////////////////////////////////////////////////////////////////////// REGISTER CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const register: RequestHandler = async (
+export const register = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -60,7 +60,7 @@ export const register: RequestHandler = async (
 
 //////////////////////////////////////////////////////////////////////////// REFRESH CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const refresh: RequestHandler = async (
+export const refresh = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -85,7 +85,7 @@ export const refresh: RequestHandler = async (
 
 //////////////////////////////////////////////////////////////////////////// LOGOUT CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const logout: RequestHandler = async (
+export const logout = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -101,7 +101,7 @@ export const logout: RequestHandler = async (
 
 //////////////////////////////////////////////////////////////////////////// ME CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const me: RequestHandler = async (req: AuthUser, res, next) => {
+export const me = async (req: AuthUser, res: Response, next: NextFunction) => {
   const { userInfo } = req.user;
 
   const user = await authService.me(userInfo);
@@ -111,7 +111,7 @@ export const me: RequestHandler = async (req: AuthUser, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// REQUEST PASSWORD RESET CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const requestPasswordReset: RequestHandler = async (
+export const requestPasswordReset = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -126,7 +126,7 @@ export const requestPasswordReset: RequestHandler = async (
 };
 //////////////////////////////////////////////////////////////////////////// RESET PASSWORD CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const resetPassword: RequestHandler = async (
+export const resetPassword = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -140,7 +140,7 @@ export const resetPassword: RequestHandler = async (
 
 //////////////////////////////////////////////////////////////////////////// VERIFY EMAIL CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const verifyEmail: RequestHandler = async (
+export const verifyEmail = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -153,7 +153,11 @@ export const verifyEmail: RequestHandler = async (
 
 //////////////////////////////////////////////////////////////////////////// INVITES CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const invites: RequestHandler = async (req: AuthUser, res, next) => {
+export const invites = async (
+  req: AuthUser,
+  res: Response,
+  next: NextFunction
+) => {
   const { sub, org, role } = req.user;
   const { email } = req.body;
 
@@ -171,7 +175,7 @@ export const invites: RequestHandler = async (req: AuthUser, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////// ACCEPT INVITES CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
-export const acceptInvites: RequestHandler = async (
+export const acceptInvites = async (
   req: Request,
   res: Response,
   next: NextFunction

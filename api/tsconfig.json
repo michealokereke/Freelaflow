@@ -9,19 +9,19 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
-    // "types": [
-    //   "node",
-    //   "express",
-    //   "bcryptjs",
-    //   "jsonwebtoken",
-    //   "cors",
-    //   "cookie-parser",
-    //   "morgan",
-    //   "nodemailer",
-    //   "luxon",
-    //   "redis",
-    //   "zod"
-    // ],
+    "types": [
+      "node",
+      "express",
+      "bcryptjs",
+      "jsonwebtoken",
+      "cors",
+      "cookie-parser",
+      "morgan",
+      "nodemailer",
+      "luxon",
+      "redis",
+      "zod"
+    ],
 
     // For nodejs:
     // "lib": ["esnext"],

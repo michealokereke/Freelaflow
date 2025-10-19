@@ -1,4 +1,4 @@
-import z, { object } from "zod";
+import z from "zod";
 export const authSchema = {
   register: z.object({
     fullName: z.string().min(2).max(255).trim(),
