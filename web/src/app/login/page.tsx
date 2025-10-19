@@ -20,6 +20,7 @@ import { useLoginMutation } from "@/store/api/endpoints/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "@/utils/toast";
 import { ApiError } from "@/types/apiError";
+import { Spinner } from "@/components/ui/spinner";
 
 const Login = () => {
   const themeMode = useSelector((state: RootState) => state.ui.themeMode.mode);
@@ -131,8 +132,13 @@ const Login = () => {
               )}
             </div>
 
-            <Button type="submit" className="w-full mt-6">
-              Login
+            <Button
+              disabled={isLoading}
+              variant={isLoading ? "outline" : "default"}
+              type="submit"
+              className="w-full mt-6"
+            >
+              {isLoading && <Spinner />} Login
             </Button>
           </form>
         </CardContent>

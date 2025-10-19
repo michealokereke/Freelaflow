@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { ApiError } from "@/types/apiError";
+import { Spinner } from "../ui/spinner";
 
 const steps = ["Basic Info", "Account Security"];
 
@@ -193,8 +194,10 @@ const RegisterForm = () => {
             <div />
           )}
           <Button
+            disabled={isLoading}
+            variant={isLoading || !isStepValid() ? "outline" : "default"}
             className={`${
-              !isStepValid()
+              !isStepValid() || isLoading
                 ? "bg-button-disabled-bg text-white hover:bg-button-disabled-bg"
                 : ""
             }`}
@@ -202,7 +205,7 @@ const RegisterForm = () => {
               handleSubmit(e);
             }}
           >
-            {" "}
+            {isLoading && <Spinner />}
             {currentStep === steps.length - 1 ? "Create Account" : "Next"}
           </Button>
         </div>
