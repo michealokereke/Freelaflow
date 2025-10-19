@@ -10,7 +10,7 @@ export const setCookies = (
   res.cookie(name, token, {
     secure: NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     path: "/",
     maxAge: expires,
   });
@@ -20,7 +20,7 @@ export const clearCookies = (res: Response, name: string) => {
   res.clearCookie(name, {
     secure: NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     path: "/",
   });
 };

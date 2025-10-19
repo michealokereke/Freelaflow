@@ -75,6 +75,7 @@ const RegisterForm = () => {
         const response = await registerReq(formData).unwrap();
 
         console.log(response);
+
         router.push("/dashboard");
       } catch (error) {
         const err = error as ApiError;
