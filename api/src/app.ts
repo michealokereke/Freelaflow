@@ -7,6 +7,7 @@ import { config } from "./config.js";
 import { registerRoutes } from "./routes.js";
 // import { rateLimiter } from "./common/middleware/rateLimit.middleware";
 import { errorHandler } from "./middleware/error.middleware.js";
+import { ACTIVE_ORIGIN } from "./utils/emv.js";
 
 export const createApp = () => {
   const app = express();
@@ -23,7 +24,7 @@ export const createApp = () => {
   });
   app.use(
     cors({
-      origin: config.CLIENT_ORIGINS,
+      origin: ACTIVE_ORIGIN,
       credentials: true,
     })
   );
