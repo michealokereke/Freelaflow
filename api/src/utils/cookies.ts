@@ -23,6 +23,7 @@ export const clearCookies = (res: Response, name: string) => {
     httpOnly: true,
     sameSite: isProd ? "none" : "lax",
     path: "/",
+    domain: ".vercel.app",
   });
 };
 
