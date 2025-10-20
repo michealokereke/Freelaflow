@@ -1,6 +1,7 @@
 import type { Response } from "express";
 import { NODE_ENV } from "./emv.js";
 
+const isProd = NODE_ENV === "production";
 export const setCookies = (
   res: Response,
   name: string,
@@ -8,9 +9,9 @@ export const setCookies = (
   expires: number
 ) => {
   res.cookie(name, token, {
-    secure: NODE_ENV === "production",
+    secure: isProd,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: isProd ? "none" : "lax",
     path: "/",
     maxAge: expires,
   });
@@ -18,9 +19,9 @@ export const setCookies = (
 
 export const clearCookies = (res: Response, name: string) => {
   res.clearCookie(name, {
-    secure: NODE_ENV === "production",
+    secure: isProd,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: isProd ? "none" : "lax",
     path: "/",
   });
 };

@@ -1,13 +1,12 @@
 import express from "express";
 import helmet from "helmet";
-import cors from "cors";
+import cors, { type CorsOptions } from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import { config } from "./config.js";
 import { registerRoutes } from "./routes.js";
 // import { rateLimiter } from "./common/middleware/rateLimit.middleware";
 import { errorHandler } from "./middleware/error.middleware.js";
-import { ACTIVE_ORIGIN } from "./utils/emv.js";
 
 export const createApp = () => {
   const app = express();
@@ -19,15 +18,23 @@ export const createApp = () => {
   app.use(morgan(config.LOG_FORMAT));
   // app.use(rateLimiter);
 
-  app.get("/test", (req, res) => {
-    res.json({ message: "test working perfectly" });
+  app.get("/", (req, res) => {
+    res.json({ message: "server working perfectly" });
   });
-  app.use(
-    cors({
-      origin: ACTIVE_ORIGIN,
-      credentials: true,
-    })
-  );
+
+  const corsOptions: CorsOptions = {
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (config.CLIENT_ORIGINS.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  };
+
+  app.use(cors(corsOptions));
 
   registerRoutes(app);
   app.use(errorHandler);
