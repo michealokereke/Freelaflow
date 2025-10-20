@@ -21,9 +21,8 @@ export const clearCookies = (res: Response, name: string) => {
   res.clearCookie(name, {
     secure: isProd,
     httpOnly: true,
-    sameSite: isProd ? "none" : "lax",
+    sameSite: "strict",
     path: "/",
-    domain: ".vercel.app",
   });
 };
 

@@ -13,7 +13,7 @@ interface AuthTypes {
   };
 }
 
-const authUrl = "/api/v1/auth";
+const authUrl = "/v1/auth";
 
 const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
