@@ -5,6 +5,10 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4000";
 export async function middleware(req: NextRequest) {
   const refreshToken = req.cookies.get("freelaflow_refresh")?.value;
   const accessToken = req.cookies.get("freelaflow_access")?.value;
+
+  console.log(`ACCESS : ${accessToken}`);
+  console.log(`REFRESH : ${refreshToken}`);
+
   const isAuthPage = [
     "/login",
     "/register",
