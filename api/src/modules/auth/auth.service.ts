@@ -302,17 +302,44 @@ export const authService = {
     });
   },
 
+  ////////////////////////////////////////////////////////////////////////////  ME SERVICE  //////////////////////////////////////////////////////////////////////////////
+
   me: async (userInfo: { sub: string; org: string; role: string }) => {
-    const user = await prisma.user.findUnique({
-      where: { id: userInfo.sub },
+    console.log("me service is being used");
+
+    const organization = await prisma.organization.findUnique({
+      where: { id: userInfo.org },
+
       select: {
         id: true,
-        email: true,
-        role: true,
-        organizationId: true,
+        name: true,
+        users: {
+          where: {
+            id: userInfo.sub,
+          },
+          select: {
+            id: true,
+            fullName: true,
+            emailVerified: true,
+            role: true,
+            email: true,
+          },
+        },
       },
     });
-    if (!user) throw errorFormat("user not found", 404);
+
+    if (!organization) throw errorFormat("user not found", 404);
+
+    const filteredUser = organization.users[0];
+    const user = {
+      email: filteredUser?.email,
+      emailVerified: filteredUser?.emailVerified,
+      fullName: filteredUser?.fullName,
+      role: filteredUser?.role,
+      id: filteredUser?.id,
+      organizationName: organization.name,
+      organizationId: organization.name,
+    };
 
     return user;
   },

@@ -217,7 +217,7 @@ model WebhookEvent {
   receivedAt   DateTime @default(now())
   processed    Boolean  @default(false)
   processedAt  DateTime?
-}
+} 
 
 
 model Invite {

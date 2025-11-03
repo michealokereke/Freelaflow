@@ -20,7 +20,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   if (result?.error?.status === 401) {
     const refreshResult = await baseQuery(
-      { url: "/api/v1/auth/refresh", method: "POST" },
+      { url: "/v1/auth/refresh", method: "POST" },
       api,
       extraOptions
     );

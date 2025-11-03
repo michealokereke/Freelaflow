@@ -46,6 +46,26 @@
   --color-error-500: var(--error-500);
   --color-button-disabled-bg: var(--button-disabled-bg);
   --color-button-disabled-text: var(--button-disabled-text);
+
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-shadow: var(--shadow);
+  --color-shadow-strong: var(--shadow-strong);
+  --color-secondary-400: var(--secondary-400);
+  --color-text-warning: var(--tag-text-warning);
+
+  --color-tag-bg-primary: var(--tag-bg-primary);
+  --color-tag-text-primary: var(--tag-text-primary);
+  --color-tag-bg-secondary: var(--tag-bg-secondary);
+  --color-tag-text-secondary: var(--tag-text-secondary);
+  --color-tag-bg-error: var(--tag-bg-error);
+  --color-tag-text-error: var(--tag-text-error);
+  --color-tag-bg-warning: var(--tag-bg-warning);
+  --color-tag-text-warning: var(--tag-text-warning);
+  --color-tag-bg-info: var(--tag-bg-info);
+  --color-tag-text-info: var(--tag-text-info);
+  --color-tag-bg-success: var(--tag-bg-success);
+  --color-tag-text-success: var(--tag-text-success);
 }
 
 /* --- Light mode — override root variables to our new palette --- */
@@ -236,7 +256,7 @@
   --tag-bg-info: #1e40af;
   --tag-text-info: #bfdbfe;
   --tag-bg-success: #064e3b;
-  --tag-text-success: #064e3b;
+  --tag-text-success: #a7f3d0;
 
   --modal-bg: #1e1e1e;
   --tooltip-bg: #e5e5e5;

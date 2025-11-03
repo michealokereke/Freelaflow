@@ -8,11 +8,17 @@ export interface AuthUser extends Request {
 
 export const authMiddleware: RequestHandler = (req: AuthUser, res, next) => {
   const reqAccessToken = req.cookies.freelaflow_access;
-  const decoded = jwt.verifyAccessToken(reqAccessToken);
-  if (!decoded || typeof decoded === "string")
+
+  try {
+    const decoded = jwt.verifyAccessToken(reqAccessToken);
+
+    if (!decoded || typeof decoded === "string")
+      throw errorFormat("invalid token", 401);
+    const { sub, org, role } = decoded;
+    req.user = { sub, org, role };
+  } catch (error) {
     throw errorFormat("invalid token", 401);
-  const { sub, org, role } = decoded;
-  req.user = { sub, org, role };
+  }
 
   next();
 };

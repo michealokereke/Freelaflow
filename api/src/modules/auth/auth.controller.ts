@@ -54,6 +54,7 @@ export const register: RequestHandler = async (req, res, next) => {
 
 export const refresh: RequestHandler = async (req, res, next) => {
   const reqRefreshToken = req.cookies.freelaflow_refresh;
+  console.log("Refresh controller operating");
 
   const { accessToken, refreshToken, user } = await authService.refresh({
     res,
@@ -86,9 +87,9 @@ export const logout: RequestHandler = async (req, res, next) => {
 //////////////////////////////////////////////////////////////////////////// ME CONTROLLER  //////////////////////////////////////////////////////////////////////////////
 
 export const me: RequestHandler = async (req: AuthUser, res, next) => {
-  const { userInfo } = req.user;
-
-  const user = await authService.me(userInfo);
+  console.log(req.user);
+  console.log("Me controller operating");
+  const user = await authService.me(req.user);
 
   res.json({ message: "user gotten successfully", user });
 };
