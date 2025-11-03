@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import UpdataeClient from "./UpdataeClient";
+import ErrorStateCard from "@/components/utils/ErrorStatsCard";
 
 const ClientDetailWrapper: React.FC<{ id: string }> = ({ id }) => {
   const themeMode = useSelector((store: RootState) => store.ui.themeMode.mode);
@@ -202,7 +203,10 @@ const ClientDetailWrapper: React.FC<{ id: string }> = ({ id }) => {
 
       {!isLoading && isError && (
         <div>
-          <ClientDatailsError />
+          <ErrorStateCard
+            backHref="/dashboard/clients"
+            backText="Back to Client"
+          />
         </div>
       )}
 

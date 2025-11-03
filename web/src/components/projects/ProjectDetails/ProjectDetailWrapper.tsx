@@ -6,7 +6,10 @@ import BudgetOverview from "./BudgetOverview";
 import TimeEntries from "./TimeEntries";
 import Invoices from "./Invoices";
 import EditProjectForm from "./EditProjectForm";
-import { useUpdateProjectMutation } from "@/store/api/endpoints/projects";
+import {
+  useCreateTaskMutation,
+  useUpdateProjectMutation,
+} from "@/store/api/endpoints/projects";
 import TaskList from "./TaskList";
 import UnRoutedmodal from "@/components/utils/UnRoutedDialog";
 import {
@@ -42,6 +45,11 @@ const ProjectDetailWrapper = ({ id }: { id: string }) => {
   const [deleteInput, setDeleteInput] = useState("");
   const [deleteProjectReq, { isLoading: deleteLoading }] =
     useDeleteProjectMutation();
+
+  const [
+    createTaskReq,
+    { data: createTaskData, isLoading: createTaskIsLoading },
+  ] = useCreateTaskMutation();
 
   const deleteInputIsValid = () => deleteInput === data?.project.name;
 
@@ -106,8 +114,8 @@ const ProjectDetailWrapper = ({ id }: { id: string }) => {
 
   const handleCreateTask = async () => {
     try {
-      console.log("Creating task:", { projectId: id, ...taskForm });
-      toast.success("Task created successfully!", themeMode);
+      const res = await createTaskReq(taskForm).unwrap();
+      toast.success(res.message, themeMode);
       setCreateTaskDialogIsopen(false);
       setTaskForm({
         title: "",
@@ -117,6 +125,7 @@ const ProjectDetailWrapper = ({ id }: { id: string }) => {
       });
       await refetch();
     } catch (error) {
+      console.log(error);
       toast.error("Failed to create task", themeMode);
     }
   };
@@ -127,6 +136,8 @@ const ProjectDetailWrapper = ({ id }: { id: string }) => {
     { id: "2", name: "David Kim" },
     { id: "3", name: "Sophie Tran" },
   ];
+
+  console.log(data);
 
   return (
     <div className="max-w-7xl mx-auto pb-6">
@@ -160,6 +171,7 @@ const ProjectDetailWrapper = ({ id }: { id: string }) => {
               <BudgetOverview />
 
               <TaskList
+                tasks={data.project.tasks}
                 setIsOpen={() => {
                   setCreateTaskDialogIsopen(true);
                 }}

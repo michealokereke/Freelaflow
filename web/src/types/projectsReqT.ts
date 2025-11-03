@@ -7,6 +7,13 @@ export interface GetProjectsT {
   id: string;
 }
 
+interface Tasks {
+  id: string;
+  title: string;
+  status: "OPEN" | "IN_PROGRESS" | "REVIEW" | "DONE" | "BLOCKED";
+  estimateMins: number;
+}
+
 export interface ProjectDetailT {
   name: string;
   description: string;
@@ -15,4 +22,5 @@ export interface ProjectDetailT {
   clientId: string;
   clientName: string;
   budget: number;
+  tasks: Tasks[];
 }

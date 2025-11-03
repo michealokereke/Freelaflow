@@ -15,6 +15,13 @@ interface CreateNewProjectDataT {
   budgetCents?: number;
 }
 
+interface CreateNewTaskDataT {
+  title: string;
+  description?: string;
+  assigneeId?: string;
+  estimateMins?: number;
+}
+
 const projectsUrl = "/v1/projects";
 const projectsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -67,6 +74,17 @@ const projectsApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+
+    createTask: builder.mutation<
+      { message: string; tasks: [] },
+      CreateNewTaskDataT
+    >({
+      query: (credentials) => ({
+        url: `${projectsUrl}/:id/tasks`,
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
@@ -76,4 +94,5 @@ export const {
   useGetProjectQuery,
   useDeleteProjectMutation,
   useUpdateProjectMutation,
+  useCreateTaskMutation,
 } = projectsApi;
